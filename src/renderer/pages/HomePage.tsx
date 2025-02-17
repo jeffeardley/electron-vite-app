@@ -1,14 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ProjectList from '../components/features/ProjectList/ProjectList';
 const { ipcRenderer } = window.require('electron');
 
 const HomePage: React.FC = () => {
+  const [projects, setProjects] = useState<Array<{ id: string; name: string }>>([]);
+
+  useEffect(() => {
+    const loadProjects = async () => {
+      try {
+        const fetchedProjects = await ipcRenderer.invoke('get-projects');
+        setProjects(fetchedProjects);
+      } catch (error) {
+        console.error('Failed to fetch projects:', error);
+        setProjects([]);
+      }
+    };
+    
+    loadProjects();
+  }, []);
+
   const handleNewProjectClick = async () => {
     try {
-      // You can pass the desired project name; here it's hard-coded
       const newProject = await ipcRenderer.invoke('new-project', 'New Project');
       console.log('Project created:', newProject);
-      // Optionally, update your local state with newProject data
+      // Refresh projects after creating a new one
+      const updatedProjects = await ipcRenderer.invoke('get-projects');
+      setProjects(updatedProjects);
     } catch (error) {
       console.error('Failed to create project:', error);
     }
@@ -21,7 +38,7 @@ const HomePage: React.FC = () => {
         This is the homepage. Use the navigation above to visit different pages or explore the application.
       </p>
       <ProjectList
-        projects={[{ id: '1', name: 'Project 1' }, { id: '2', name: 'Project 2' }]}
+        projects={projects}
         onProjectClick={(id) => console.log(`Project clicked: ${id}`)}
         onNewProjectClick={handleNewProjectClick}
       />

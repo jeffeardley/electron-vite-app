@@ -65,7 +65,12 @@ if (isDev) {
   try {
     require('electron-reloader')(module, {
       debug: true,
-      watchRenderer: true
+      watchRenderer: true,
+      electron: path.join(__dirname, '../../node_modules/.bin/electron'),
+      pattern: [
+        'src/main/**/*.ts',
+        'dist-electron/main/**/*.js'
+      ]
     });
   } catch (_) {
     console.log('Error with electron-reloader');

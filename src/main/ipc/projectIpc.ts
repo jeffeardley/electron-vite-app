@@ -20,3 +20,16 @@ ipcMain.handle('new-project', (_event, projectName: string) => {
     stmt.finalize();
   });
 });
+
+ipcMain.handle('get-projects', () => {
+    return new Promise<{ id: number; name: string }[]>((resolve, reject) => {
+        const stmt = db.prepare('SELECT * FROM projects');
+        stmt.all((err: Error | null, rows: { id: number; name: string }[]) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(rows);
+            }
+        });
+    });
+});
