@@ -16,12 +16,13 @@ export default defineConfig({
       overlay: true
     }
   },
+  optimizeDeps: {
+    exclude: ['electron']
+  },
   build: {
     outDir: 'dist',
     rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, 'index.html')
-      }
+      external: ['electron', 'path', 'fs', 'os', 'child_process'],
     }
   }
 })
