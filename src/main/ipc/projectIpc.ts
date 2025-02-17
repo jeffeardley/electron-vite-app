@@ -33,3 +33,16 @@ ipcMain.handle('get-projects', () => {
         });
     });
 });
+
+ipcMain.handle('delete-project', (_event, projectId: string) => {
+    return new Promise<void>((resolve, reject) => {
+        const stmt = db.prepare('DELETE FROM projects WHERE id = ?');
+        stmt.run(projectId, function (err: Error | null) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve();
+            }
+        });
+    });
+});

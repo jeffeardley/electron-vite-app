@@ -3,7 +3,7 @@ import { ProjectListProps } from './types';
 // import { useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 
-const ProjectList: React.FC<ProjectListProps> = ({ projects, onProjectClick, onNewProjectClick }) => {
+const ProjectList: React.FC<ProjectListProps> = ({ projects, onProjectClick, onNewProjectClick, onProjectDeleteClick }) => {
 //   const navigate = useNavigate();
 
   return (
@@ -18,6 +18,9 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onProjectClick, onN
           <li key={project.id}>
             <button onClick={() => onProjectClick(project.id)}>
               {project.name}
+            </button>
+            <button onClick={() => onProjectDeleteClick(project.id)}>
+              Delete
             </button>
           </li>
         ))}

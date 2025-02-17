@@ -29,6 +29,15 @@ const HomePage: React.FC = () => {
     }
   };
 
+  const handleProjectDeleteClick = async (projectId: string) => {
+    try {
+      await ipcRenderer.invoke('delete-project', projectId);
+      setProjects(projects.filter(project => project.id !== projectId));
+    } catch (error) {
+      console.error('Failed to delete project:', error);
+    }
+  }
+
   return (
     <div style={{ padding: '2rem' }}>
       <h1>Welcome to My Electron App</h1>
@@ -39,6 +48,7 @@ const HomePage: React.FC = () => {
         projects={projects}
         onProjectClick={(id) => console.log(`Project clicked: ${id}`)}
         onNewProjectClick={handleNewProjectClick}
+        onProjectDeleteClick={handleProjectDeleteClick}
       />
     </div>
   );
