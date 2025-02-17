@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import ProjectList from '../components/features/ProjectList/ProjectList';
+import { useNavigate } from 'react-router-dom';
+import { ProjectList } from '../components/features';
 const { ipcRenderer } = window.require('electron');
 
 const HomePage: React.FC = () => {
   const [projects, setProjects] = useState<Array<{ id: string; name: string }>>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadProjects = async () => {
@@ -21,11 +23,7 @@ const HomePage: React.FC = () => {
 
   const handleNewProjectClick = async () => {
     try {
-      const newProject = await ipcRenderer.invoke('new-project', 'New Project');
-      console.log('Project created:', newProject);
-      // Refresh projects after creating a new one
-      const updatedProjects = await ipcRenderer.invoke('get-projects');
-      setProjects(updatedProjects);
+      navigate('/project-creation-page');
     } catch (error) {
       console.error('Failed to create project:', error);
     }

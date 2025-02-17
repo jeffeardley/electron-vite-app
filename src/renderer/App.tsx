@@ -4,6 +4,7 @@ import { Home, Folder } from 'lucide-react';
 import Header from './components/common/Header/Header';
 import HomePage from './pages/HomePage';
 import ProjectPage from './pages/ProjectPage';
+import ProjectCreationPage from './pages/ProjectCreationPage';
 
 const AppRouter: React.FC = () => {
   const navigate = useNavigate();
@@ -15,11 +16,6 @@ const AppRouter: React.FC = () => {
       icon: Home,
       onClick: () => navigate('/')
     },
-    {
-      label: 'Project',
-      icon: Folder,
-      onClick: () => navigate('/project-page')
-    }
   ];
 
   const navItems = allNavItems.filter(item => {
@@ -38,6 +34,8 @@ const AppRouter: React.FC = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/project-page" element={<ProjectPage />} />
+        <Route path="/project-creation-page" element={<ProjectCreationPage />} />
+        <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
     </>
   );
