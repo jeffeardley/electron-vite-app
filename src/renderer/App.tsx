@@ -1,35 +1,40 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { Home, Folder } from 'lucide-react';
 import Header from './components/common/Header/Header';
-import { Home, Settings, User } from 'lucide-react';
+import HomePage from './pages/HomePage';
+import ProjectPage from './pages/ProjectPage';
 
-const App: React.FC = () => {
+const AppRouter: React.FC = () => {
+  const navigate = useNavigate();
   const navItems = [
     {
       label: 'Home',
       icon: Home,
-      onClick: () => console.log('Home clicked')
+      onClick: () => navigate('/')
     },
     {
-      label: 'Profile',
-      icon: User,
-      onClick: () => console.log('Profile clicked')
-    },
-    {
-      label: 'Settings',
-      icon: Settings,
-      onClick: () => console.log('Settings clicked')
+      label: 'Project',
+      icon: Folder,
+      onClick: () => navigate('/project-page')
     }
   ];
-
   return (
-    <div>
-      <Header
-        appName="My Electron App"
-        navItems={navItems}
-        onLogoClick={() => console.log('Logo clicked')}
-      />
-      {/* Rest of your app content */}
-    </div>
+    <>
+      <Header appName="My Electron App" navItems={navItems} onLogoClick={() => navigate('/')} />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/project-page" element={<ProjectPage />} />
+      </Routes>
+    </>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <BrowserRouter>
+      <AppRouter />
+    </BrowserRouter>
   );
 };
 
