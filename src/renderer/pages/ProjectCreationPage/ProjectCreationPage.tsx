@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { TextInput } from '../components/common';
-import { FileUpload } from '../components/common';
+import { TextInput } from '../../components/common';
+import { FileUpload } from '../../components/common';
 import { useNavigate } from 'react-router-dom';
 const { ipcRenderer } = window.require('electron');
 
@@ -17,7 +17,9 @@ const ProjectCreationPage: React.FC = () => {
         try {
             const newProject = await ipcRenderer.invoke('new-project', projectName);
             console.log('Project created:', newProject);
-            navigate('/project-page');
+            navigate(`/project-page/${newProject.id}`, {
+                state: { project: newProject }
+            });
         } catch (error) {
             console.error('Failed to create project:', error);
         }

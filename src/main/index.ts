@@ -8,8 +8,9 @@ import './ipc/projectIpc';
 
 async function initialize() {
   try {
-    const dbService = new DatabaseService();
-    await dbService.initialize();
+    const db = DatabaseService.getInstance();
+    await db.initialize();
+    // You can add more initialization logic here if needed
     console.log('Database initialized successfully');
   } catch (error) {
     console.error('Failed to initialize database:', error);

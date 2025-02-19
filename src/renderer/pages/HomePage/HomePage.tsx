@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ProjectList } from '../components/features';
+import { ProjectList } from '../../components/features';
 const { ipcRenderer } = window.require('electron');
 
 const HomePage: React.FC = () => {
@@ -20,6 +20,13 @@ const HomePage: React.FC = () => {
     
     loadProjects();
   }, []);
+
+  const handleProjectClick = (projectId: string) => {
+    const project = projects.find(p => p.id === projectId);
+    navigate(`/project-page/${projectId}`, { 
+      state: { project } 
+    });
+  };
 
   const handleNewProjectClick = async () => {
     try {
@@ -46,7 +53,7 @@ const HomePage: React.FC = () => {
       </p>
       <ProjectList
         projects={projects}
-        onProjectClick={(id) => console.log(`Project clicked: ${id}`)}
+        onProjectClick={handleProjectClick}
         onNewProjectClick={handleNewProjectClick}
         onProjectDeleteClick={handleProjectDeleteClick}
       />

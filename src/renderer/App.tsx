@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import { Home, Folder } from 'lucide-react';
+import { Home } from 'lucide-react';
 import Header from './components/common/Header/Header';
-import HomePage from './pages/HomePage';
-import ProjectPage from './pages/ProjectPage';
-import ProjectCreationPage from './pages/ProjectCreationPage';
+import HomePage from './pages/HomePage/HomePage';
+import ProjectPage from './pages/ProjectPage/ProjectPage';
+import ProjectCreationPage from './pages/ProjectCreationPage/ProjectCreationPage';
 
 const AppRouter: React.FC = () => {
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ const AppRouter: React.FC = () => {
       <Header appName="My Electron App" navItems={navItems} onLogoClick={() => navigate('/')} />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/project-page" element={<ProjectPage />} />
+        <Route path="/project-page/:projectId" element={<ProjectPage />} />
         <Route path="/project-creation-page" element={<ProjectCreationPage />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
