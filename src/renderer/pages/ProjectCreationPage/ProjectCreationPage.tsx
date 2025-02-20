@@ -6,6 +6,8 @@ const { ipcRenderer } = window.require('electron');
 
 const ProjectCreationPage: React.FC = () => {
     const [projectName, setProjectName] = useState('');
+    const [mediaFile, setMediaFile] = useState<File | null>(null);
+    const [transcriptFile, setTranscriptFile] = useState<File | null>(null);
     const navigate = useNavigate();
 
     const handleNewProjectCreation = async () => {
@@ -15,7 +17,12 @@ const ProjectCreationPage: React.FC = () => {
         }
 
         try {
-            const newProject = await ipcRenderer.invoke('new-project', projectName);
+            const newProject = await ipcRenderer.invoke('stateManager/new-project', projectName);
+
+            if (transcriptFile) {
+                const fileName = await transcriptFile.text();
+                await ipcRenderer.invoke('scriptManager/convert-to-xml', fileName);
+            }
             console.log('Project created:', newProject);
             navigate(`/project-page/${newProject.id}`, {
                 state: { project: newProject }
@@ -33,8 +40,14 @@ const ProjectCreationPage: React.FC = () => {
                 value={projectName}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProjectName(e.target.value)}
             />
-            <FileUpload label="Media File" />
-            <FileUpload label="Transcript File" />
+            <FileUpload 
+                label="Media File" 
+                onFileChange={setMediaFile}
+            />
+            <FileUpload 
+                label="Transcript File" 
+                onFileChange={setTranscriptFile}
+            />
             <button onClick={handleNewProjectCreation}>Create Project</button>
         </div>
     );

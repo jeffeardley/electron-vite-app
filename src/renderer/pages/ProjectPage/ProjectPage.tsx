@@ -12,7 +12,7 @@ const ProjectPage: React.FC = () => {
 
   useEffect(() => {
     if (!project && projectId) {
-      ipcRenderer.invoke('get-project', projectId)
+      ipcRenderer.invoke('stateManager/get-project', projectId)
         .then((projectData: ProjectData) => setProject(projectData))
         .catch((error: Error) => console.error('Error fetching project:', error));
     }

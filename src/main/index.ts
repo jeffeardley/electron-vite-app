@@ -3,17 +3,20 @@ import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 import { DatabaseService } from './services/databaseService';
 
-// Import the IPC handler to register it
-import './ipc/projectIpc';
+// Import the Controller classes
+import { StateManagerController } from './stateManager/stateManagerController';
+import { ScriptManagerController } from './scriptManager/scriptManagerController';
 
 async function initialize() {
   try {
     const db = DatabaseService.getInstance();
     await db.initialize();
-    // You can add more initialization logic here if needed
-    console.log('Database initialized successfully');
+    // Initialize controllers
+    StateManagerController.getInstance();
+    ScriptManagerController.getInstance();
+    console.log('Database and controllers initialized successfully');
   } catch (error) {
-    console.error('Failed to initialize database:', error);
+    console.error('Failed to initialize:', error);
   }
 }
 

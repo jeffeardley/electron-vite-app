@@ -10,7 +10,7 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     const loadProjects = async () => {
       try {
-        const fetchedProjects = await ipcRenderer.invoke('get-projects');
+        const fetchedProjects = await ipcRenderer.invoke('stateManager/get-projects');
         setProjects(fetchedProjects);
       } catch (error) {
         console.error('Failed to fetch projects:', error);
@@ -38,7 +38,7 @@ const HomePage: React.FC = () => {
 
   const handleProjectDeleteClick = async (projectId: string) => {
     try {
-      await ipcRenderer.invoke('delete-project', projectId);
+      await ipcRenderer.invoke('stateManager/delete-project', projectId);
       setProjects(projects.filter(project => project.id !== projectId));
     } catch (error) {
       console.error('Failed to delete project:', error);
